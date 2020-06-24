@@ -100,7 +100,7 @@ const args = yargs
             default: defaults.commandColors,
             type: 'string'
         },
-        'event-colors': {
+        'global-event-colors': {
             describe:
                 'Comma-separated list of chalk colors to use on global events. ' +
                 'If there are more commands than colors, the last color will be repeated.\n' +
