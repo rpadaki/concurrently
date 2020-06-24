@@ -64,6 +64,7 @@ function mapToCommandInfo(command) {
         name: command.name || '',
         prefixColor: command.prefixColor || '',
         commandColor: command.commandColor || '',
+        globalEventColor: command.globalEventColor || '',
         env: command.env || {},
     };
 }

@@ -79,7 +79,7 @@ module.exports = class Logger {
             return;
         }
 
-        this.log(chalk.gray.dim('-->') + ' ', chalk.gray.dim(text) + '\n');
+        this.log(this.colorText(this.globalEventColor, '-->') + ' ', this.colorText(this.globalEventColor, text) + '\n');
     }
 
     log(prefix, text) {

@@ -100,6 +100,17 @@ const args = yargs
             default: defaults.commandColors,
             type: 'string'
         },
+        'event-colors': {
+            describe:
+                'Comma-separated list of chalk colors to use on global events. ' +
+                'If there are more commands than colors, the last color will be repeated.\n' +
+                '- Available modifiers: reset, bold, dim, italic, underline, inverse, hidden, strikethrough\n' +
+                '- Available colors: black, red, green, yellow, blue, magenta, cyan, white, gray\n' +
+                '- Available background colors: bgBlack, bgRed, bgGreen, bgYellow, bgBlue, bgMagenta, bgCyan, bgWhite\n' +
+                'See https://www.npmjs.com/package/chalk for more information.',
+            default: defaults.globalEventColors,
+            type: 'string'
+        },
         'l': {
             alias: 'prefix-length',
             describe:
@@ -154,17 +165,20 @@ const args = yargs
 
 const prefixColors = args.prefixColors.split(',');
 const commandColors = args.commandColors.split(',');
+const globalEventColors = args.globalEventColors.split(',');
 const names = (args.names || '').split(args.nameSeparator);
 
-let lastPrefixColor, lastCommandColor;
+let lastPrefixColor, lastCommandColor, lastGlobalEventColor;
 concurrently(args._.map((command, index) => {
     // Use documented behaviour of repeating last colour when specifying more commands than colours
     lastPrefixColor = prefixColors[index] || lastPrefixColor;
     lastCommandColor = commandColors[index] || lastCommandColor;
+    lastGlobalEventColor = globalEventColors[index] || lastGlobalEventColor;
     return {
         command,
         prefixColor: lastPrefixColor,
         commandColor: lastCommandColor,
+        globalEventColor: lastGlobalEventColor,
         name: names[index]
     };
 }), {
