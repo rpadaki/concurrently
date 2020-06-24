@@ -56,8 +56,8 @@ module.exports = class Logger {
         }, prefix);
     }
 
-    colorText(command, text) {
-        const color = _.get(chalk, command.prefixColor, chalk.gray.dim);
+    colorText(textColor, text) {
+        const color = _.get(chalk, textColor, chalk.gray.dim);
         return color(text);
     }
 
@@ -66,11 +66,11 @@ module.exports = class Logger {
             return;
         }
 
-        this.logCommandText(chalk.gray.dim(text) + '\n', command);
+        this.logCommandText(this.colorText(command.commandColor, text) + '\n', command);
     }
 
     logCommandText(text, command) {
-        const prefix = this.colorText(command, this.getPrefix(command));
+        const prefix = this.colorText(command.prefixColor, this.getPrefix(command));
         return this.log(prefix + (prefix ? ' ' : ''), text);
     }
 

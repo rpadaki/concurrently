@@ -15,6 +15,7 @@ module.exports = {
     prefix: '',
     // Refer to https://www.npmjs.com/package/chalk
     prefixColors: 'gray.dim',
+    commandColors: 'gray.dim',
     // How many bytes we'll show on the command prefix
     prefixLength: 10,
     raw: false,

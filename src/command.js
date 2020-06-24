@@ -5,11 +5,12 @@ module.exports = class Command {
         return !!this.process;
     }
 
-    constructor({ index, name, command, prefixColor, env, killProcess, spawn, spawnOpts }) {
+    constructor({ index, name, command, prefixColor, commandColor, env, killProcess, spawn, spawnOpts }) {
         this.index = index;
         this.name = name;
         this.command = command;
         this.prefixColor = prefixColor;
+        this.commandColor = commandColor;
         this.env = env;
         this.killProcess = killProcess;
         this.spawn = spawn;

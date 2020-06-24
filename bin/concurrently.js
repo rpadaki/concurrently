@@ -89,6 +89,17 @@ const args = yargs
             default: defaults.prefixColors,
             type: 'string'
         },
+        'command-colors': {
+            describe:
+                'Comma-separated list of chalk colors to use on command events. ' +
+                'If there are more commands than colors, the last color will be repeated.\n' +
+                '- Available modifiers: reset, bold, dim, italic, underline, inverse, hidden, strikethrough\n' +
+                '- Available colors: black, red, green, yellow, blue, magenta, cyan, white, gray\n' +
+                '- Available background colors: bgBlack, bgRed, bgGreen, bgYellow, bgBlue, bgMagenta, bgCyan, bgWhite\n' +
+                'See https://www.npmjs.com/package/chalk for more information.',
+            default: defaults.commandColors,
+            type: 'string'
+        },
         'l': {
             alias: 'prefix-length',
             describe:
@@ -133,7 +144,7 @@ const args = yargs
         }
     })
     .group(['m', 'n', 'name-separator', 'raw', 's', 'no-color'], 'General')
-    .group(['p', 'c', 'l', 't'], 'Prefix styling')
+    .group(['p', 'c', 'command-colors', 'l', 't'], 'Prefix/Command Styling')
     .group(['i', 'default-input-target'], 'Input handling')
     .group(['k', 'kill-others-on-fail'], 'Killing other processes')
     .group(['restart-tries', 'restart-after'], 'Restarting')
@@ -142,15 +153,18 @@ const args = yargs
     .argv;
 
 const prefixColors = args.prefixColors.split(',');
+const commandColors = args.commandColors.split(',');
 const names = (args.names || '').split(args.nameSeparator);
 
-let lastColor;
+let lastPrefixColor, lastCommandColor;
 concurrently(args._.map((command, index) => {
     // Use documented behaviour of repeating last colour when specifying more commands than colours
-    lastColor = prefixColors[index] || lastColor;
+    lastPrefixColor = prefixColors[index] || lastPrefixColor;
+    lastCommandColor = commandColors[index] || lastCommandColor;
     return {
         command,
-        prefixColor: lastColor,
+        prefixColor: lastPrefixColor,
+        commandColor: lastCommandColor,
         name: names[index]
     };
 }), {
